@@ -4,7 +4,8 @@ using System.Text;
 
 namespace SistemaPagamentoLoja
 {
-    internal class FormaPagamento
+    internal abstract class FormaPagamento
     {
+        public abstract decimal CalcularValorFinal(decimal valor);
     }
 }
