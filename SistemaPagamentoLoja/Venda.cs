@@ -23,17 +23,18 @@
             Situacao = "Pendente";
         }
 
-        public void Pagar(FormaPagamento formaPagamento)
+        public bool Pagar(FormaPagamento formaPagamento)
         {
             if (Situacao == "Pago")
             {
-                Console.WriteLine("Essa venda já foi paga.");
-                return;
+                return false;
             }
 
             ValorFinal = formaPagamento.CalcularValorFinal(ValorCompra);
             FormaPagamento = formaPagamento;
             Situacao = "Pago";
+
+            return true;
         }
     }
 }

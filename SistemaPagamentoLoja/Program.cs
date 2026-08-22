@@ -42,7 +42,6 @@ do
     }
     else if (opcao == "2")
     {
-        Console.WriteLine("Listar vendas");
         if (vendas.Count == 0)
         {
             Console.WriteLine("Não existem vendas cadastradas.");
@@ -51,23 +50,20 @@ do
         {
             foreach (Venda venda in vendas)
             {
-                Console.WriteLine(" ");
+                Console.WriteLine("--------------------------------");
                 Console.WriteLine($"Venda: {venda.Numero}");
                 Console.WriteLine($"Cliente: {venda.Cliente.Nome}");
                 Console.WriteLine($"Valor original: R$ {venda.ValorCompra:F2}");
                 Console.WriteLine($"Situação: {venda.Situacao}");
-            
-                if(venda.Situacao == "Pago")
+
+                if (venda.Situacao == "Pago")
                 {
                     Console.WriteLine($"Forma de pagamento: {venda.FormaPagamento}");
-                    Console.WriteLine($"Valor final: R${venda.ValorFinal:F2}");
-
+                    Console.WriteLine($"Valor final: R$ {venda.ValorFinal:F2}");
                 }
-
             }
 
-            Console.WriteLine(" ");
-
+            Console.WriteLine("--------------------------------");
         }
     }
     else if (opcao == "3")
@@ -96,46 +92,51 @@ do
             Console.WriteLine("1 - PIX");
             Console.WriteLine("2 - Cartão de crédito");
             Console.WriteLine("3 - Dinheiro");
-            Console.WriteLine("-----------------------------------");
+            Console.WriteLine("--------------------------------");
 
-            Console.WriteLine("Escolha uma opção: ");
+            Console.Write("Escolha uma opção: ");
             string opcaoPagamento = Console.ReadLine();
 
             FormaPagamento formaPagamento;
-            string nomeFormaPagameto;
+            string nomeFormaPagamento;
 
             if (opcaoPagamento == "1")
             {
                 formaPagamento = new PagamentoPix();
-                nomeFormaPagameto = "PICXXXX";
-              
+                nomeFormaPagamento = "PIX";
             }
             else if (opcaoPagamento == "2")
             {
                 formaPagamento = new PagamentoCartao();
-                nomeFormaPagameto = "Cartão de Crédito";
-
+                nomeFormaPagamento = "Cartão de crédito";
             }
             else if (opcaoPagamento == "3")
             {
                 formaPagamento = new PagamentoDinheiro();
-                nomeFormaPagameto = "Dinheiro";
-
+                nomeFormaPagamento = "Dinheiro";
             }
             else
             {
                 Console.WriteLine("Forma de pagamento inválida.");
                 formaPagamento = null;
+                nomeFormaPagamento = "";
             }
 
             if (formaPagamento != null)
             {
-                vendaEncontrada.Pagar(formaPagamento);
+                bool pagamentoRealizado = vendaEncontrada.Pagar(formaPagamento);
 
-                Console.WriteLine($"Valor original: R$ {vendaEncontrada.ValorCompra:F2}");
-                Console.WriteLine($"Forma de pagamento: {formaPagamento.GetType().Name}");
-                Console.WriteLine($"Valor final: R$ {vendaEncontrada.ValorFinal:F2}");
-                Console.WriteLine("Pagamento realizado com sucesso.");
+                if (pagamentoRealizado)
+                {
+                    Console.WriteLine($"Valor original: R$ {vendaEncontrada.ValorCompra:F2}");
+                    Console.WriteLine($"Forma de pagamento: {nomeFormaPagamento}");
+                    Console.WriteLine($"Valor final: R$ {vendaEncontrada.ValorFinal:F2}");
+                    Console.WriteLine("Pagamento realizado com sucesso.");
+                }
+                else
+                {
+                    Console.WriteLine("Essa venda já foi paga.");
+                }
             }
         }
     }
